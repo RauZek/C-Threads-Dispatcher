@@ -23,12 +23,12 @@ The solution is split into multiple libraries and folders, ensuring separation o
 # 2. Workspace Layout
 c_threads/
 ├── test_shell.sh
+├── CMakeLists.txt
 ├── c_base_thread/
 ├── c_simple_process/
 ├── c_advanced_process/
 ├── dispatcher/
-├── test_app/
-└── CMakeLists.txt
+└── test_app/
 
 
 # 3. Base Thread Library (c_base_thread)
