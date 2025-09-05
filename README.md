@@ -4,7 +4,7 @@ Language Standard: C99
 Build System: CMake
 Platform: Linux (tested with GCC, -Wall -Wextra -Werror -Wpedantic)
 
-1. Project Overview
+# 1. Project Overview
 
 This project implements a modular threaded message dispatching system in C.
 It consists of:
@@ -20,22 +20,20 @@ Test application that validates CLI input messages and interacts with the dispat
 The solution is split into multiple libraries and folders, ensuring separation of concerns and scalability.
 
 
-2. Workspace Layout
-assignment_c_threads/
-├── run_tests.sh                # Test script with random stress tests
-├── base_thread/                # Base thread static lib
-├── simple_process/             # Simple process shared lib
-├── advanced_process/           # Advanced process shared lib
-├── dispatcher/                 # Dispatcher shared lib
-├── app/                        # Test app (executable)
-├── includes/                   # Shared headers
-└── CMakeLists.txt              # Root cmake file
+# 2. Workspace Layout
+c_threads/
+├── test_shell.sh
+├── c_base_thread/
+├── c_simple_process/
+├── c_advanced_process/
+├── dispatcher/
+├── test_app/
+└── CMakeLists.txt
 
 
-3. Base Thread Library (base_thread)
+# 3. Base Thread Library (c_base_thread)
 Library type: Static (libc_base_thread.a)
 Responsibilities: Provide generic threading and message queuing support.
-
 Implementation:
 
 - init: Creates a new base_process_t, spawns a thread running loop.
@@ -44,7 +42,7 @@ Implementation:
 - destroy: Signals termination, joins thread, frees resources.
 
 
-4. Simple Process Library (simple_process)
+# 4. Simple Process Library (c_simple_process)
 Library type: Shared (libc_simple_process.so)
 
 - Message Range: 10–20 and 50–60 (inclusive).
@@ -52,14 +50,14 @@ Library type: Shared (libc_simple_process.so)
 - Messages outside supported range are ignored as invalid.
 
 
-5. Advanced Process Library (advanced_process)
+# 5. Advanced Process Library (c_advanced_process)
 Library type: Shared (libc_advanced_process.so)
 
 - Message Range: 30–40 and 50–60.
 - Acts the same as Simple process, but message ranges differ.
 
 
-6. Dispatcher Library (dispatcher)
+# 6. Dispatcher Library (dispatcher)
 Library type: Shared (libc_dispatcher.so)
 
 Responsibilities:
@@ -75,8 +73,7 @@ Threaded component (built on base_thread just like processes).
 - When a message is between 50–60, it dispatches to both Simple & Advanced.
 
 
-7. Test Application (c_threads_cmake)
-Executable name: c_threads_cmake
+# 7. Test Application (test_app)
 
 Responsibilities:
 - Dynamically links with dispatcher only.
@@ -88,19 +85,19 @@ Responsibilities:
 - After the last CLI argument, it sends end condition (0) internally, triggering clean shutdown of all the created threads.
 
 
-8. End Condition
+# 8. End Condition
 - Message 0 = reserved for termination.
 - Not allowed as CLI input.
 - Sent internally by app after last valid message processed.
 - Ensures proper cleanup of all threads.
 
 
-9. Testing
+# 9. Testing
 A shell script that must:
 - Run the app 1000 times, each time with 100,000 random CLI arguments (within and outside valid ranges).
 - Verify correct handling (valid messages processed, invalid exit).
 
-10.CMake Rules
+# 10.CMake Rules
 Root CMakeLists.txt builds:
 - c_base_thread (static lib).
 - c_simple_process, c_advanced_process, c_dispatcher (shared libs).
