@@ -97,7 +97,7 @@ A shell script that must:
 - Run the app 1000 times, each time with 100,000 random CLI arguments (within and outside valid ranges).
 - Verify correct handling (valid messages processed, invalid exit).
 
-# 10.CMake Rules
+# 10. CMake Setup
 Root CMakeLists.txt builds:
 - c_base_thread (static lib).
 - c_simple_process, c_advanced_process, c_dispatcher (shared libs).
